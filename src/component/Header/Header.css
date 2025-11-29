@@ -1,12 +1,11 @@
 .navbar {
-    /* width: 100%; */
     background: #1e2a38;
     display: flex;
-    flex-wrap: wrap; /* allow wrapping on small screens */
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .navbar h2 {
@@ -18,7 +17,7 @@
 .nav-links {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap; /* wrap links on small screens */
+    flex-wrap: wrap;
 }
 
 .nav-links a {
@@ -27,7 +26,7 @@
     padding: 8px 12px;
     border-radius: 8px;
     transition: 0.3s;
-    white-space: nowrap; /* prevent wrapping inside link text */
+    white-space: nowrap;
 }
 
 .nav-links a:hover,
