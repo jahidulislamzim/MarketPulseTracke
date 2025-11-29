@@ -1,9 +1,8 @@
-/* Content */
 .content {
     padding: 20px;
 }
 
-/* Profile Card */
+
 .profile-card {
     background: #fff;
     border-radius: 20px;
@@ -14,7 +13,7 @@
     gap: 20px;
 }
 
-/* Profile Image */
+
 .profile-img {
     width: 150px;
     height: 150px;
@@ -24,7 +23,6 @@
     margin: 0 auto;
 }
 
-/* Profile Fields */
 .field {
     margin-bottom: 15px;
 }
@@ -61,7 +59,7 @@
     box-shadow: 0 0 8px rgba(9, 132, 227, 0.3);
 }
 
-/* Buttons Container */
+
 .edit-actions-container {
     display: flex;
     justify-content: center;
@@ -109,7 +107,6 @@
     background: #a91d20;
 }
 
-/* Scrollbar for fields */
 .profile-details::-webkit-scrollbar {
     width: 6px;
 }
@@ -121,15 +118,4 @@
 
 .profile-details::-webkit-scrollbar-track {
     background: transparent;
-}
-
-/* Responsive */
-@media(max-width: 480px) {
-    .field .edit {
-        width: 100%;
-    }
-
-    .edit-actions-container {
-        flex-direction: column;
-    }
 }

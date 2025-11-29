@@ -1,4 +1,3 @@
-/* Content Area */
 .content {
   padding: 30px;
 }
@@ -23,7 +22,7 @@ h3 {
   background: #004494;
 }
 
-/* Table Style */
+
 .report-table {
   width: 100%;
   border-collapse: collapse;
@@ -45,13 +44,11 @@ h3 {
   border-bottom: 1px solid #dce9f9;
 }
 
-/* Last column buttons */
 .report-table td:last-child {
   display: flex;
   gap: 10px;
 }
 
-/* Status */
 .status.success {
   color: green;
   font-weight: bold;
@@ -62,7 +59,7 @@ h3 {
   font-weight: bold;
 }
 
-/* Action Buttons */
+
 .view-btn,
 .delete-btn {
   padding: 6px 12px;
@@ -70,7 +67,7 @@ h3 {
   border-radius: 5px;
   cursor: pointer;
   font-size: 13px;
-  flex: 1; /* optional for equal width */
+  flex: 1; 
   text-align: center;
 }
 

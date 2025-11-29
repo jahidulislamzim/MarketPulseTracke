@@ -1,16 +1,16 @@
-/* Content */
+
 .content {
     padding: 30px 20px;
     max-width: 1200px;
-    margin: 0 auto; /* center content */
+    margin: 0 auto;
+
     box-sizing: border-box;
 }
 
-/* Location Select */
 .location-select {
     margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap; /* allow wrapping */
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
     font-weight: 600;
@@ -39,31 +39,32 @@
 
 .location-select select:focus {
     border-color: #0984e3;
-    box-shadow: 0 0 8px rgba(9,132,227,0.3);
+    box-shadow: 0 0 8px rgba(9, 132, 227, 0.3);
 }
 
-/* Table */
 table {
     width: 100%;
-    max-width: 100%; /* prevent table overflow */
-    background: #fff; 
+    max-width: 100%;
+    background: #fff;
     text-align: center;
     border-collapse: collapse;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-    table-layout: fixed; /* fix column width */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    table-layout: fixed;
+
 }
 
 th,
 td {
     padding: 12px 10px;
     border-bottom: 1px solid #ddd;
-    word-wrap: break-word; /* prevent text overflow */
+    word-wrap: break-word;
+
 }
 
 th {
-    background: #0074e0; 
+    background: #0074e0;
     color: #fff;
     font-weight: 600;
 }
@@ -72,46 +73,20 @@ tr:hover {
     background: #f1f1f1;
 }
 
-/* Delete Button */
+
 .del {
-    background: #d63031; 
-    color: #fff;
+    padding: 6px 12px;
     border: none;
-    padding: 8px 12px;
-    border-radius: 12px; 
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+    background: #d9534f;
+    color: white;
     transition: 0.3s;
 }
 
 .del:hover {
     background: #a91d20;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-    }
-
-    .location-select {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .location-select select {
-        width: 100%;
-    }
-
-    table {
-        display: block;
-        overflow-x: auto; /* allow horizontal scroll if table is too wide */
-        white-space: nowrap;
-    }
 }
