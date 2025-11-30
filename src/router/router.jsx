@@ -5,6 +5,7 @@ import MyList from "../pages/Buyer/MyList/MyList";
 import Profile from "../pages/Buyer/Profile/Profile";
 import Report from "../pages/Buyer/Report/Report";
 import Login from "../pages/Login/Login";
+import AdminReport from "../pages/Admin/Report/Report";
 
 let router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ let router = createBrowserRouter([
       {
         path: "/buyer/report",
         Component: Report,
+      },
+      {
+        path: "/admin/report",
+        Component: AdminReport,
       },
       {
         path: "/login",

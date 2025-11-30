@@ -1,0 +1,78 @@
+.content {
+  padding: 30px;
+}
+
+h3 {
+  color: #0074e0;
+  margin-bottom: 15px;
+}
+
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,.1);
+}
+
+.report-table th {
+  background: #0074e0;
+  color: white;
+  padding: 14px;
+  text-align: left;
+}
+
+.report-table td {
+  padding: 14px;
+  border-bottom: 1px solid #dce9f9;
+}
+
+.report-table td:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+.status.success {
+  color: green;
+  font-weight: bold;
+}
+
+.status.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+
+.view-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  flex: 1; 
+  text-align: center;
+}
+
+.view-btn {
+  background: #0074e0;
+  color: white;
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  background: #005bb7;
+}
+
+.delete-btn {
+  background: #d9534f;
+  color: white;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: #b52b28;
+}
+

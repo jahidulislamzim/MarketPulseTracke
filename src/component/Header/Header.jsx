@@ -4,7 +4,7 @@ import "./Header.css";
 
 
 const Header = () => {
-  const role = "buyer"; 
+  const role = "admin"; 
   const auth = false;
 
   const handleLogout = () => {
@@ -37,7 +37,7 @@ const Header = () => {
           <>
             <Link to="/admin/dashboard">Dashboard</Link>
             <Link to="/admin/users">Users</Link>
-            <Link to="/admin/reports">Reports</Link>
+            <Link to="/admin/report">Reports</Link>
           </>
         );
 
