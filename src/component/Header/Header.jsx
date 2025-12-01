@@ -36,7 +36,7 @@ const Header = () => {
         return (
           <>
             <Link to="/admin/dashboard">Dashboard</Link>
-            <Link to="/admin/users">Users</Link>
+            <Link to="/admin/user">Users</Link>
             <Link to="/admin/report">Reports</Link>
           </>
         );
