@@ -38,6 +38,14 @@ let router = createBrowserRouter([
         Component: User,
       },
       {
+        path: "/admin/product",
+        Component: User,
+      },
+      {
+        path: "/admin/profile",
+        Component: User,
+      },
+      {
         path: "/login",
         Component: Login,
       },

@@ -35,7 +35,8 @@ const Header = () => {
       case "admin":
         return (
           <>
-            <Link to="/admin/dashboard">Dashboard</Link>
+            <Link to="/admin/profile">Profile</Link>
+            <Link to="/admin/product">Products</Link>
             <Link to="/admin/user">Users</Link>
             <Link to="/admin/report">Reports</Link>
           </>
