@@ -6,6 +6,7 @@ import Profile from "../pages/Buyer/Profile/Profile";
 import Report from "../pages/Buyer/Report/Report";
 import Login from "../pages/Login/Login";
 import AdminReport from "../pages/Admin/Report/Report";
+import AdminProduct from "../pages/Admin/Product/Product";
 import User from "../pages/Admin/User/User";
 
 let router = createBrowserRouter([
@@ -39,7 +40,7 @@ let router = createBrowserRouter([
       },
       {
         path: "/admin/product",
-        Component: User,
+        Component: AdminProduct,
       },
       {
         path: "/admin/profile",
