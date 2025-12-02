@@ -7,6 +7,7 @@ import Report from "../pages/Buyer/Report/Report";
 import Login from "../pages/Login/Login";
 import AdminReport from "../pages/Admin/Report/Report";
 import AdminProduct from "../pages/Admin/Product/Product";
+import AdminProfile from "../pages/Admin/Profile/Profile";
 import User from "../pages/Admin/User/User";
 
 let router = createBrowserRouter([
@@ -45,7 +46,7 @@ let router = createBrowserRouter([
       },
       {
         path: "/admin/profile",
-        Component: Profile,
+        Component: AdminProfile,
       },
 
       // Seller Route 
