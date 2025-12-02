@@ -44,26 +44,3 @@ h3 {
   color: orange;
   font-weight: bold;
 }
-
-.view-btn {
-  width: 100px;            
-  flex: 0 0 auto;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 13px;
-  background-color: #0074e0;
-  color: #ffffff;
-  transition: background-color 0.25s ease, transform 0.2s ease;
-  white-space: nowrap;
-}
-
-.view-btn:hover {
-  background-color: #005bb7;
-  transform: scale(1.05);
-}
-
-.view-btn:active {
-  transform: scale(0.97);
-}
