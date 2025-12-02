@@ -7,7 +7,6 @@ h3 {
   margin-bottom: 15px;
 }
 
-
 .report-table {
   width: 100%;
   border-collapse: collapse;
@@ -30,17 +29,15 @@ h3 {
 }
 
 
-.status.active {
-  color: green;
+.status.verified {
+  color: #1e9e00;
   font-weight: bold;
 }
 
-.status.inactive {
-  color: red;
+.status.not-verified {
+  color: #d90000;
   font-weight: bold;
 }
-
-
 
 .popup-overlay {
   position: fixed;
@@ -56,7 +53,7 @@ h3 {
 
 .popup-box {
   background: #fff;
-  width: 380px;
+  width: 400px;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -86,6 +83,7 @@ h3 {
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
 
 .popup-actions {
   margin-top: 20px;

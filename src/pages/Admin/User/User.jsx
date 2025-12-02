@@ -4,11 +4,11 @@ import './User.css';
 const Report = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
-  const [status, setStatus] = useState("active");
+  const [status, setStatus] = useState("verified");
 
   const [sellers, setSellers] = useState([
-    { id: 1, name: "Kamal", shopName: "ABC Store", phone: "01712345678", status: "active" },
-    { id: 2, name: "Munna Bhai", shopName: "XYZ Mart", phone: "01887654321", status: "inactive" },
+    { id: 1, name: "Kamal", shopName: "ABC Store", phone: "01712345678", status: "verified" },
+    { id: 2, name: "Munna Bhai", shopName: "XYZ Mart", phone: "01887654321", status: "not-verified" },
   ]);
 
   const handleView = (id) => {
@@ -56,7 +56,7 @@ const Report = () => {
               <td>{seller.name}</td>
               <td>{seller.shopName}</td>
               <td className={`status ${seller.status}`}>
-                {seller.status === "active" ? "Active" : "Inactive"}
+                {seller.status === "verified" ? "Verified" : "Not Verified"}
               </td>
               <td>
                 <button className="view-btn" onClick={() => handleView(seller.id)}>
@@ -79,8 +79,8 @@ const Report = () => {
 
             <label>Status</label>
             <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
+              <option value="verified">Verified</option>
+              <option value="not-verified">Not Verified</option>
             </select>
 
             <div className="popup-actions">
