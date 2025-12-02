@@ -21,8 +21,6 @@ const Report = () => {
   return (
     <div className="content">
       <h3>Product List</h3>
-      <button className="add-btn">Add Product</button>
-
       <table className="report-table">
         <thead>
           <tr>
