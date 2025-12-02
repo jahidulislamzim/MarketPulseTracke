@@ -7,10 +7,11 @@ h3 {
   margin-bottom: 15px;
 }
 
+
 .report-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: #ffffff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0,0,0,.1);
@@ -18,7 +19,7 @@ h3 {
 
 .report-table th {
   background: #0074e0;
-  color: white;
+  color: #fff;
   padding: 14px;
   text-align: left;
 }
@@ -28,19 +29,66 @@ h3 {
   border-bottom: 1px solid #dce9f9;
 }
 
-.report-table td:last-child {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-
-.status.success {
+.status.active {
   color: green;
   font-weight: bold;
 }
 
-.status.pending {
-  color: orange;
+.status.inactive {
+  color: red;
   font-weight: bold;
+}
+
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: #fff;
+  width: 380px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.popup-box h3 {
+  margin-bottom: 15px;
+  color: #0074e0;
+}
+
+.popup-box p {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.popup-box label {
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+  font-weight: 600;
+}
+
+.popup-box select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
