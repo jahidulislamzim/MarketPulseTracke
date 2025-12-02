@@ -66,7 +66,7 @@ const Home = () => {
             </section>
 
             <footer className="footer">
-                © {new Date().getFullYear()} Your Company Name. All rights reserved.
+                © {new Date().getFullYear()} Market Pulse Tracker. All rights reserved.
             </footer>
 
         </div>
