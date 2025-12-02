@@ -30,6 +30,7 @@ let router = createBrowserRouter([
         path: "/buyer/report",
         Component: Report,
       },
+      // Admin Route 
       {
         path: "/admin/report",
         Component: AdminReport,
@@ -44,7 +45,17 @@ let router = createBrowserRouter([
       },
       {
         path: "/admin/profile",
-        Component: User,
+        Component: Profile,
+      },
+
+      // Seller Route 
+      {
+        path: "/seller/profile",
+        Component: Profile,
+      },
+      {
+        path: "/seller/product",
+        Component: Profile,
       },
       {
         path: "/login",
