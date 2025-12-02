@@ -183,6 +183,7 @@ Buyers use the system to find the most accurate and fair prices.
 * **Row CSS** – Simple and clean custom CSS styling
 * **Firebase** – Authentication and real-time database
 * **VS Code** – Main development environment
+* **Vercel** – Deployment and hosting platform  
 
 
 
