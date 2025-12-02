@@ -192,7 +192,7 @@ Buyers use the system to find the most accurate and fair prices.
 <div align="center">
   <h3><strong>Market Pulse Tracker</strong></h3>
   <p>Fair Prices • Safe Market • Empowered Community</p>
-  <p>Built with ❤️ by Jahidul Islam, Jannatun Naem Refat, Rashid Shahriar, Sagor,  Aminul Islam Rupak</p>
+  <p>Built with ❤️ by Jahidul Islam, Jannatun Naem Refat, Rashid Shahriar, Sagor, MD.Aminul Islam Rupak</p>
 </div>
 
 
