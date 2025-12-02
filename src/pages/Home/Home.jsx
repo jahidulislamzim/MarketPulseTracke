@@ -47,7 +47,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Vision */}
             <section className="section">
                 <div className="section-content">
                     <img 
