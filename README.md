@@ -2,7 +2,7 @@
 
 ### **Transparent Prices. Empowered Buyers. Corruption-Free Market.**
 
-Market Pulse Tracker is a MERN-powered platform designed to **monitor real market prices**, empower local buyers, support honest sellers, and prevent price manipulation or syndicates.
+Market Pulse Tracker designed to **monitor real market prices**, empower local buyers, support honest sellers, and prevent price manipulation or syndicates.
 It ensures **accurate, location-based product pricing** and maintains fairness through a powerful **Admin–Seller–Buyer** ecosystem.
 
 ---
@@ -16,7 +16,7 @@ It ensures **accurate, location-based product pricing** and maintains fairness t
 # Project Overview
 
 Market Pulse Tracker is a real-time **market price monitoring system** where Admins define price ranges, Sellers must follow them, and Buyers can view accurate prices and report any irregularities.
-The system helps fight corruption, price syndication, and misinformation—ensuring **market transparency** for everyone.
+The system helps fight corruption, price syndication, and misinformation ensuring **market transparency** for everyone.
 
 ---
 
@@ -35,7 +35,7 @@ The system helps fight corruption, price syndication, and misinformation—ensur
 ### **Accurate Price Monitoring**
 
 * Admin defines **Minimum, Maximum & Recommended Prices**
-* Sellers must follow Admin-approved price ranges
+* Sellers must follow Admin approved price ranges
 * Buyers see real-time, location-based prices
 
 ### **Role-Based System**
@@ -44,7 +44,7 @@ The system helps fight corruption, price syndication, and misinformation—ensur
 
 ### **Price Integrity Enforcement**
 
-* Automatic rejection if sellers input a price outside Admin-defined range
+* Automatic rejection if sellers input a price outside Admin defined range
 * Buyers can report incorrect pricing
 * Admin can warn or block dishonest sellers
 
@@ -98,7 +98,7 @@ Admins control the entire pricing ecosystem.
 
 ## Seller Requirements
 
-Sellers upload their product prices—but must follow Admin rules.
+Sellers upload their product prices but must follow Admin rules.
 
 ### Seller Responsibilities:
 
