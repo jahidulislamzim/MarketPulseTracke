@@ -10,6 +10,9 @@ import AdminProduct from "../pages/Admin/Product/Product";
 import AdminProfile from "../pages/Admin/Profile/Profile";
 import User from "../pages/Admin/User/User";
 
+import SellerProfile from "../pages/Seller/Profile/Profile"
+import SellerProduct from "../pages/Seller/Product/Product"
+
 let router = createBrowserRouter([
   {
     path: "/",
@@ -52,11 +55,11 @@ let router = createBrowserRouter([
       // Seller Route 
       {
         path: "/seller/profile",
-        Component: Profile,
+        Component: SellerProfile,
       },
       {
         path: "/seller/product",
-        Component: Profile,
+        Component: SellerProduct,
       },
       {
         path: "/login",

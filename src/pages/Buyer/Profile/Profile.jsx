@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./Profile.css"
+import ProfilePic from "../../../assets/profile.webp"
 
 const Profile = () => {
      const [isEditing, setIsEditing] = useState(false);
@@ -38,7 +39,7 @@ const Profile = () => {
     <div className="content">
       <div className="profile-card">
         <img
-          src="https://via.placeholder.com/150"
+          src={ProfilePic}
           className="profile-img"
           alt="Profile"
         />

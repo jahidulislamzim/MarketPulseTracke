@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
-
 const Header = () => {
-  const role = "admin"; 
+  const [role, setRole] = useState("admin"); // role is now dynamic
   const auth = false;
 
   const handleLogout = () => {
     console.log("Logged out");
-
   };
 
   const renderLinks = () => {
@@ -26,9 +24,8 @@ const Header = () => {
       case "seller":
         return (
           <>
-            <Link to="/seller/dashboard">Dashboard</Link>
-            <Link to="/seller/products">My Products</Link>
-            <Link to="/seller/orders">Orders</Link>
+            <Link to="/seller/profile">Profile</Link>
+            <Link to="/seller/product">Product</Link>
           </>
         );
 
@@ -43,11 +40,7 @@ const Header = () => {
         );
 
       default:
-        return (
-          <>
-            <Link to="/login">Login</Link>
-          </>
-        );
+        return <Link to="/login">Login</Link>;
     }
   };
 
@@ -56,6 +49,15 @@ const Header = () => {
       <h2>MPT</h2>
 
       <div className="right-nav">
+        {/* NEW: Role Dropdown */}
+        <div className="role-dropdown">
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="buyer">Buyer</option>
+            <option value="seller">Seller</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
         <div className="nav-links">{renderLinks()}</div>
 
         <div className="auth-btn">
