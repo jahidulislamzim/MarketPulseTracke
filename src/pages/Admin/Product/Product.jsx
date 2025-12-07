@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Product.css";
+import { db } from "../../../auth/firebase";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
-const Report = () => {
-  const [showPopup, setShowPopup] = useState(false); 
-  const [error, setError] = useState("");         
-  const [editingId, setEditingId] = useState(null); 
+const Product = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [error, setError] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -13,34 +22,66 @@ const Report = () => {
     unit: "",
   });
 
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      productName: "Product 1",
-      highestRange: 1000,
-      lowestRange: 500,
-      unit: "piece",
-      lastUpdate: "2025-12-01 14:00",
-    },
-    {
-      id: 2,
-      productName: "Bad Product Report",
-      highestRange: 2000,
-      lowestRange: 1000,
-      unit: "kg",
-      lastUpdate: "2025-12-02 10:30",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+
+  const productsCollection = collection(db, "products");
+
+  const fetchProductsList = async () => {
+    try {
+      const snapshot = await getDocs(productsCollection);
+      const productsList = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+        };
+      });
+      setProducts(productsList);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch products.");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchProductsList();
+    };
+
+    fetchData();
+  }, []);
 
   const handleAddClick = () => {
     setShowPopup(true);
     setError("");
     setEditingId(null);
-    setFormData({ productName: "", highestRange: "", lowestRange: "", unit: "" });
+    setFormData({
+      productName: "",
+      highestRange: "",
+      lowestRange: "",
+      unit: "",
+    });
   };
 
+const formatDateBD = (isoString) => {
+  if (!isoString) return "N/A";
 
-  const handleAddProduct = () => {
+  const date = new Date(isoString);
+
+  return date.toLocaleString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZone: "Asia/Dhaka",
+  });
+};
+
+
+  const handleAddProduct = async () => {
     const { productName, highestRange, lowestRange, unit } = formData;
 
     if (!productName || !highestRange || !lowestRange || !unit) {
@@ -57,18 +98,22 @@ const Report = () => {
     }
 
     const newProduct = {
-      id: new Date().getTime(),
       productName,
-      highestRange,
-      lowestRange,
+      highestRange: high,
+      lowestRange: low,
       unit,
-      lastUpdate: new Date().toISOString().slice(0, 16).replace("T", " "),
+      lastUpdate: new Date().toISOString(),
     };
 
-    setProducts([...products, newProduct]);
-    handleCancel();
+    try {
+      await addDoc(productsCollection, newProduct);
+      await fetchProductsList();
+      handleCancel();
+    } catch (err) {
+      console.error(err);
+      setError("Failed to add product.");
+    }
   };
-
 
   const handleEdit = (id) => {
     const product = products.find((p) => p.id === id);
@@ -85,8 +130,7 @@ const Report = () => {
     setError("");
   };
 
-
-  const handleUpdateProduct = () => {
+  const handleUpdateProduct = async () => {
     const { productName, highestRange, lowestRange, unit } = formData;
 
     if (!productName || !highestRange || !lowestRange || !unit) {
@@ -102,34 +146,49 @@ const Report = () => {
       return;
     }
 
-    const updatedProduct = {
-      id: editingId,
-      productName,
-      highestRange,
-      lowestRange,
-      unit,
-      lastUpdate: new Date().toISOString().slice(0, 16).replace("T", " "),
-    };
+    const productRef = doc(db, "products", editingId);
 
-    setProducts(products.map((p) => (p.id === editingId ? updatedProduct : p)));
-    handleCancel();
-  };
-
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      setProducts(products.filter((p) => p.id !== id));
+    try {
+      await updateDoc(productRef, {
+        productName,
+        highestRange: high,
+        lowestRange: low,
+        unit,
+        lastUpdate: new Date().toISOString(), // ISO 8601
+      });
+      await fetchProductsList();
+      handleCancel();
+    } catch (err) {
+      console.error(err);
+      setError("Failed to update product.");
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
+
+    const productRef = doc(db, "products", id);
+    try {
+      await deleteDoc(productRef);
+      await fetchProductsList();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete product.");
+    }
+  };
 
   const handleCancel = () => {
     setShowPopup(false);
     setEditingId(null);
     setError("");
-    setFormData({ productName: "", highestRange: "", lowestRange: "", unit: "" });
+    setFormData({
+      productName: "",
+      highestRange: "",
+      lowestRange: "",
+      unit: "",
+    });
   };
-
 
   return (
     <div className="content">
@@ -156,12 +215,18 @@ const Report = () => {
               <td>{product.lowestRange}</td>
               <td>{product.highestRange}</td>
               <td>{product.unit}</td>
-              <td>{product.lastUpdate}</td>
+              <td>{formatDateBD(product.lastUpdate)}</td>
               <td>
-                <button className="view-btn same-btn" onClick={() => handleEdit(product.id)}>
+                <button
+                  className="view-btn same-btn"
+                  onClick={() => handleEdit(product.id)}
+                >
                   Edit
                 </button>
-                <button className="delete-btn same-btn" onClick={() => handleDelete(product.id)}>
+                <button
+                  className="delete-btn same-btn"
+                  onClick={() => handleDelete(product.id)}
+                >
                   Delete
                 </button>
               </td>
@@ -178,32 +243,36 @@ const Report = () => {
             <label>Product Name</label>
             <input
               type="text"
-              name="productName"
               value={formData.productName}
-              onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, productName: e.target.value })
+              }
             />
 
             <label>Highest Price</label>
             <input
               type="number"
-              name="highestRange"
               value={formData.highestRange}
-              onChange={(e) => setFormData({ ...formData, highestRange: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, highestRange: e.target.value })
+              }
             />
 
             <label>Lowest Price</label>
             <input
               type="number"
-              name="lowestRange"
               value={formData.lowestRange}
-              onChange={(e) => setFormData({ ...formData, lowestRange: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, lowestRange: e.target.value })
+              }
             />
 
             <label>Unit</label>
             <select
-              name="unit"
               value={formData.unit}
-              onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, unit: e.target.value })
+              }
             >
               <option value="">Select Unit</option>
               <option value="kg">KG</option>
@@ -216,7 +285,10 @@ const Report = () => {
                 Cancel
               </button>
               {editingId ? (
-                <button className="add-btn same-btn" onClick={handleUpdateProduct}>
+                <button
+                  className="add-btn same-btn"
+                  onClick={handleUpdateProduct}
+                >
                   Update
                 </button>
               ) : (
@@ -234,4 +306,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default Product;
