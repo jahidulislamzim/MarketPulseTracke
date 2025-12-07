@@ -1,22 +1,19 @@
 import React, { useState } from "react";
-import "./Registration.css"
+import "./Registration.css";
 
 const Registration = () => {
   const [role, setRole] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePassword = () => setShowPassword(!showPassword);
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value);
-  };
+  const handleRoleChange = (e) => setRole(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Account created successfully!");
   };
+
   return (
     <div className="container">
       <h2 className="heading">Create Your Account</h2>
@@ -40,7 +37,6 @@ const Registration = () => {
           </button>
         </div>
 
-        {/* ROLE SELECTION */}
         <label>Select Role</label>
         <select value={role} onChange={handleRoleChange} required>
           <option value="" disabled>
@@ -51,9 +47,9 @@ const Registration = () => {
           <option value="admin">Admin</option>
         </select>
 
-        {/* DYNAMIC FIELDS */}
+        {/* Dynamic Fields */}
         {role === "seller" && (
-          <div>
+          <div className="dynamic-fields">
             <label>TIN ID</label>
             <input type="text" placeholder="Enter TIN ID" required />
 
@@ -66,7 +62,7 @@ const Registration = () => {
         )}
 
         {role === "customer" && (
-          <div>
+          <div className="dynamic-fields">
             <label>Mobile Number</label>
             <input type="tel" placeholder="Enter mobile number" required />
 
@@ -76,7 +72,7 @@ const Registration = () => {
         )}
 
         {role === "admin" && (
-          <div>
+          <div className="dynamic-fields">
             <label>Employee ID</label>
             <input type="text" placeholder="Enter employee ID" required />
 

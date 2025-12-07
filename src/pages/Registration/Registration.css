@@ -1,7 +1,7 @@
 .container {
-    width: 100%;
+    width: 550px;        
     max-width: 550px;
-    margin: 0 auto;          
+    margin: 40px auto;   
 }
 
 
@@ -13,16 +13,17 @@
     color: #2c3e50;
 }
 
+
 .form-box {
+    width: 100%;
+    box-sizing: border-box;
     background: #ffffff;
     padding: 30px;
     border-radius: 14px;
     box-shadow: 0 10px 28px rgba(0,0,0,0.10);
-
     display: flex;
     flex-direction: column;
     gap: 14px;
-
     text-align: left;
 }
 
@@ -64,7 +65,7 @@
 }
 
 .password-box input {
-    width: 90%;        
+    width: 90%;
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #d0d7e2;
@@ -73,12 +74,11 @@
 }
 
 .show-btn {
-    width: 10%;        
-    height: 44px;      
+    width: 10%;
+    height: 44px;
     display: flex;
     justify-content: center;
     align-items: center;
-
     border: none;
     background: #e2e6eb;
     border-radius: 8px;
