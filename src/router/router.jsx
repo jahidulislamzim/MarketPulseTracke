@@ -12,6 +12,7 @@ import User from "../pages/Admin/User/User";
 
 import SellerProfile from "../pages/Seller/Profile/Profile"
 import SellerProduct from "../pages/Seller/Product/Product"
+import Registration from "../pages/Registration/Registration";
 
 let router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ let router = createBrowserRouter([
       {
         path: "/login",
         Component: Login,
+      },
+      {
+        path: "/registration",
+        Component: Registration,
       },
     ],
   },
