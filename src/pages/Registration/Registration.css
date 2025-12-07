@@ -125,3 +125,12 @@
 .login-link a:hover {
     text-decoration: underline;
 }
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    display: block;
+    text-align:center;
+}
