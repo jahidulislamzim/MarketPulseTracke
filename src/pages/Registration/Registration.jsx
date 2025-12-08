@@ -1,49 +1,58 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import "./Registration.css";
+
+import { doc, setDoc } from "firebase/firestore";
+import useAuth from "../../hooks/useAuth";
+import { db } from "../../auth/firebase.init";
 
 const Registration = () => {
   const [role, setRole] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const { registerUser } = useAuth();
+  const navigate = useNavigate(); 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
-  const [sellerData, setSellerData] = useState({ tin: "", shopName: "", shopAddress: "" });
+  const [sellerData, setSellerData] = useState({
+    tin: "",
+    shopName: "",
+    shopAddress: "",
+  });
   const [customerData, setCustomerData] = useState({ mobile: "", address: "" });
-  const [adminData, setAdminData] = useState({ employeeId: "", secretCode: "" });
-
+  const [adminData, setAdminData] = useState({
+    employeeId: "",
+    secretCode: "",
+  });
 
   const [errorMessage, setErrorMessage] = useState("");
 
   const togglePassword = () => setShowPassword(!showPassword);
-
   const handleRoleChange = (e) => setRole(e.target.value);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let hasEmptyField = false;
 
-
-    if (!name.trim() || !email.trim() || !password.trim() || !role) {
-      hasEmptyField = true;
-    }
+    let hasEmptyField =
+      !name.trim() || !email.trim() || !password.trim() || !role;
 
     if (role === "seller") {
-      if (!sellerData.tin.trim() || !sellerData.shopName.trim() || !sellerData.shopAddress.trim()) {
+      if (
+        !sellerData.tin.trim() ||
+        !sellerData.shopName.trim() ||
+        !sellerData.shopAddress.trim()
+      )
         hasEmptyField = true;
-      }
     } else if (role === "customer") {
-      if (!customerData.mobile.trim() || !customerData.address.trim()) {
+      if (!customerData.mobile.trim() || !customerData.address.trim())
         hasEmptyField = true;
-      }
     } else if (role === "admin") {
-      if (!adminData.employeeId.trim() || !adminData.secretCode.trim()) {
+      if (!adminData.employeeId.trim() || !adminData.secretCode.trim())
         hasEmptyField = true;
-      }
     }
 
     if (hasEmptyField) {
@@ -51,24 +60,38 @@ const Registration = () => {
       return;
     }
 
-    const commonData = { name, email, password, role };
-    let roleData = {};
-    if (role === "seller") roleData = sellerData;
-    if (role === "customer") roleData = customerData;
-    if (role === "admin") roleData = adminData;
+    try {
 
-    const finalData = { ...commonData, ...roleData };
-    console.log(finalData);
-    alert("Account created successfully! Check console for data.");
+      const userCredential = await registerUser(email, password);
+      const uid = userCredential.uid;
 
-    setName("");
-    setEmail("");
-    setPassword("");
-    setRole("");
-    setSellerData({ tin: "", shopName: "", shopAddress: "" });
-    setCustomerData({ mobile: "", address: "" });
-    setAdminData({ employeeId: "", secretCode: "" });
-    setErrorMessage("");
+
+      const commonData = { uid, name, email, role, isVerified: false };
+      await setDoc(doc(db, "users", uid), commonData);
+
+      let roleData = {};
+      if (role === "seller") roleData = sellerData;
+      if (role === "customer") roleData = customerData;
+      if (role === "admin") roleData = adminData;
+
+      await setDoc(doc(db, role + "s", uid), { uid, ...roleData });
+
+      alert("Account created successfully!");
+
+      navigate("/");
+
+      setName("");
+      setEmail("");
+      setPassword("");
+      setRole("");
+      setSellerData({ tin: "", shopName: "", shopAddress: "" });
+      setCustomerData({ mobile: "", address: "" });
+      setAdminData({ employeeId: "", secretCode: "" });
+      setErrorMessage("");
+    } catch (error) {
+      console.error("Error creating account:", error);
+      setErrorMessage(error.message);
+    }
   };
 
   return (
@@ -115,7 +138,6 @@ const Registration = () => {
           <option value="admin">Admin</option>
         </select>
 
-
         {role === "seller" && (
           <div className="dynamic-fields">
             <label>TIN ID</label>
@@ -123,7 +145,9 @@ const Registration = () => {
               type="text"
               placeholder="Enter TIN ID"
               value={sellerData.tin}
-              onChange={(e) => setSellerData({ ...sellerData, tin: e.target.value })}
+              onChange={(e) =>
+                setSellerData({ ...sellerData, tin: e.target.value })
+              }
             />
 
             <label>Shop Name</label>
@@ -131,7 +155,9 @@ const Registration = () => {
               type="text"
               placeholder="Enter shop name"
               value={sellerData.shopName}
-              onChange={(e) => setSellerData({ ...sellerData, shopName: e.target.value })}
+              onChange={(e) =>
+                setSellerData({ ...sellerData, shopName: e.target.value })
+              }
             />
 
             <label>Shop Address</label>
@@ -139,7 +165,9 @@ const Registration = () => {
               type="text"
               placeholder="Enter shop address"
               value={sellerData.shopAddress}
-              onChange={(e) => setSellerData({ ...sellerData, shopAddress: e.target.value })}
+              onChange={(e) =>
+                setSellerData({ ...sellerData, shopAddress: e.target.value })
+              }
             />
           </div>
         )}
@@ -151,7 +179,9 @@ const Registration = () => {
               type="tel"
               placeholder="Enter mobile number"
               value={customerData.mobile}
-              onChange={(e) => setCustomerData({ ...customerData, mobile: e.target.value })}
+              onChange={(e) =>
+                setCustomerData({ ...customerData, mobile: e.target.value })
+              }
             />
 
             <label>Customer Address</label>
@@ -159,7 +189,9 @@ const Registration = () => {
               type="text"
               placeholder="Enter your address"
               value={customerData.address}
-              onChange={(e) => setCustomerData({ ...customerData, address: e.target.value })}
+              onChange={(e) =>
+                setCustomerData({ ...customerData, address: e.target.value })
+              }
             />
           </div>
         )}
@@ -171,7 +203,9 @@ const Registration = () => {
               type="text"
               placeholder="Enter employee ID"
               value={adminData.employeeId}
-              onChange={(e) => setAdminData({ ...adminData, employeeId: e.target.value })}
+              onChange={(e) =>
+                setAdminData({ ...adminData, employeeId: e.target.value })
+              }
             />
 
             <label>Admin Secret Code</label>
@@ -179,7 +213,9 @@ const Registration = () => {
               type="password"
               placeholder="Enter secret code"
               value={adminData.secretCode}
-              onChange={(e) => setAdminData({ ...adminData, secretCode: e.target.value })}
+              onChange={(e) =>
+                setAdminData({ ...adminData, secretCode: e.target.value })
+              }
             />
           </div>
         )}
@@ -187,7 +223,6 @@ const Registration = () => {
         <button type="submit" className="next-btn">
           Create Account
         </button>
-
 
         {errorMessage && <span className="error">{errorMessage}</span>}
 
