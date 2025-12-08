@@ -1,73 +1,189 @@
-.content {
+.admin-product-content {
   padding: 30px;
+  width: 70%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-
-h3 {
+.admin-product-title {
   color: #0074e0;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.admin-product-add-btn {
+  background: #005bb7;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+  min-width: 100px;
+  text-align: center;
   margin-bottom: 15px;
 }
 
-
-
-
-.status.success {
-  color: green;
-  font-weight: bold;
+.admin-product-add-btn:hover {
+  background: #004494;
 }
 
-.status.pending {
-  color: orange;
-  font-weight: bold;
+.admin-product-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.popup-overlay {
+.admin-product-table th,
+.admin-product-table td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: middle;
+  border: none;
+}
+
+.admin-product-table th {
+  background: #0074e0;
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-product-table tbody tr:hover {
+  background: #f1f7ff;
+}
+
+.admin-product-table td:last-child {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.admin-product-view-btn,
+.admin-product-delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 80px;
+  flex: none;
+  transition: 0.3s;
+}
+
+.admin-product-view-btn {
+  background: #005bb7;
+  color: #fff;
+}
+
+.admin-product-view-btn:hover {
+  background: #004494;
+}
+
+.admin-product-delete-btn {
+  background: #d9534f;
+  color: #fff;
+}
+
+.admin-product-delete-btn:hover {
+  background: #b52b28;
+}
+
+.admin-product-popup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.35);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-.popup-box {
-  background: #ffffff;
-  padding: 25px;
-  width: 350px;
+.admin-product-popup-content {
+  background: #fff;
+  padding: 25px 30px;
   border-radius: 10px;
-  box-shadow: 0 5px 18px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  width: 60%;
+  max-width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  animation: admin-fadeIn 0.3s ease;
 }
 
-.popup-box h3 {
-  text-align: center;
+.admin-product-popup-content h4 {
+  margin-bottom: 20px;
   color: #0074e0;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
 }
 
-
-.popup-box label {
-  font-weight: bold;
-  color: #333;
-  margin-top: 6px;
-}
-
-.popup-box input,
-.popup-box select {
-  padding: 10px;
-  font-size: 14px;
+.admin-product-popup-input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1px solid #dce9f9;
   border-radius: 6px;
-  border: 1px solid #c8d6e5;
+  font-size: 14px;
   outline: none;
 }
 
-.popup-actions {
+.admin-product-popup-input:focus {
+  border-color: #0074e0;
+  box-shadow: 0 0 5px rgba(0, 116, 224, 0.3);
+}
+
+.admin-product-popup-buttons {
   display: flex;
-  gap: 10px;      
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.admin-product-popup-add-btn,
+.admin-product-cancel-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  min-width: 100px;
+  transition: 0.3s;
+}
+
+.admin-product-popup-add-btn {
+  background: #005bb7;
+  color: #fff;
+}
+
+.admin-product-popup-add-btn:hover {
+  background: #004494;
+}
+
+.admin-product-cancel-btn {
+  background: #d9534f;
+  color: #fff;
+}
+
+.admin-product-cancel-btn:hover {
+  background: #b52b28;
+}
+
+.admin-product-error-msg {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+@keyframes admin-fadeIn {
+  from { opacity: 0; transform: translateY(-20px);}
+  to { opacity: 1; transform: translateY(0);}
 }

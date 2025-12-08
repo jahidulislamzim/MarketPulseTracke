@@ -1,0 +1,35 @@
+{
+  "Dhaka": {
+    "Dhaka": {
+      "Dhanmondi": ["Dhanmondi 15", "Dhanmondi 27", "Dhanmondi 32"],
+      "Gulshan": ["Gulshan 1", "Gulshan 2", "Banani"],
+      "Mirpur": ["Mirpur 1", "Mirpur 2", "Pallabi"]
+    },
+    "Narsingdi": {
+      "Narsingdi Sadar": ["UMC Para", "Danga", "Karimpur"],
+      "Raipura": ["Raipura Bazar", "Chandpur", "Mirzanagar"]
+    }
+  },
+
+  "Chattogram": {
+    "Chattogram": {
+      "Kotwali": ["Chawk Bazar", "Anderkilla", "Jamal Khan"],
+      "Pahartali": ["Agarabad", "Halishahar", "North Kattali"]
+    },
+    "Cox's Bazar": {
+      "Cox's Bazar Sadar": ["Laldighi", "Rumalia", "Jhilongja"],
+      "Teknaf": ["Baharchhara", "Shamlapur", "Sabrang"]
+    }
+  },
+
+  "Khulna": {
+    "Khulna": {
+      "Khalishpur": ["Boira", "Daulatpur", "Sonadanga"],
+      "Terokhada": ["Araisidha", "Barasat", "Maalidanga"]
+    },
+    "Jessore": {
+      "Jessore Sadar": ["Chanchra", "Arabpur", "Rupdia"],
+      "Jhikargacha": ["Jhikargacha Town", "Basupari", "Navaran"]
+    }
+  }
+}

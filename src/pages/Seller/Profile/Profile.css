@@ -1,17 +1,26 @@
 .content {
     padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .profile-card {
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-    padding: 30px;
+    padding: 40px 30px;
+    max-width: 700px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.profile-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
 
 .profile-img {
     width: 150px;
@@ -23,52 +32,70 @@
 }
 
 .field {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .field label {
     font-weight: 600;
     color: #555;
-    margin-bottom: 5px;
-    display: block;
+    margin-bottom: 8px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
 }
 
 .field .view {
     font-size: 16px;
     color: #2d3436;
     word-wrap: break-word;
+    padding: 10px 14px;
+    background: #f7f9fc;
+    border-radius: 12px;
+    border: 1.5px solid transparent;
 }
 
-.field .edit {
-    width: 80%;
-    padding: 12px 14px;
+.field .edit,
+.field select {
+    width: 100%;
+    padding: 12px 16px;
     font-size: 15px;
     border: 1.5px solid #0074e0;
     border-radius: 12px;
     outline: none;
     background: #f7f9fc;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
-    transition: border-color 0.3s, box-shadow 0.3s;
-    font-weight: 500;
     color: #2d3436;
+    font-weight: 500;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.field .edit:focus {
+.field .edit:focus,
+.field select:focus {
     border-color: #0984e3;
     box-shadow: 0 0 8px rgba(9, 132, 227, 0.3);
+}
+
+.field select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 10px 7px;
 }
 
 
 .edit-actions-container {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .edit-btn,
 .save-btn,
 .cancel-btn {
-    padding: 12px 28px;
+    padding: 12px 30px;
     border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
@@ -76,7 +103,8 @@
     border: none;
     transition: 0.3s;
     flex: 1;
-    max-width: 200px;
+    max-width: 180px;
+    min-width: 120px;
 }
 
 .edit-btn {
@@ -106,15 +134,3 @@
     background: #a91d20;
 }
 
-.profile-details::-webkit-scrollbar {
-    width: 6px;
-}
-
-.profile-details::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.profile-details::-webkit-scrollbar-track {
-    background: transparent;
-}
