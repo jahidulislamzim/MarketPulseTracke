@@ -1,11 +1,28 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const { signInUser, authError } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogin = () => {
+    signInUser(email, password)
+      .then(result => {
+        setEmail("");
+        setPassword("");
+        navigate(location.state?.from || "/");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="container">
@@ -42,10 +59,17 @@ const Login = () => {
           <label htmlFor="showPassword">Show Password</label>
         </div>
 
-        <button className="login-btn">Log In</button>
+        <button className="login-btn" onClick={handleLogin}>
+          Log In
+        </button>
+
+        {authError && <p className="error-msg">{authError}</p>}
 
         <div className="signup-text">
-          Don’t have an account? <Link className="signup-link" to="/registration">Sign Up</Link>
+          Don’t have an account?{" "}
+          <Link className="signup-link" to="/registration">
+            Sign Up
+          </Link>
         </div>
       </div>
     </div>
@@ -53,4 +77,3 @@ const Login = () => {
 };
 
 export default Login;
-

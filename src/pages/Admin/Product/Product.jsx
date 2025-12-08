@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Product.css";
-import { db } from "../../../auth/firebase";
 import {
   collection,
   getDocs,
@@ -9,8 +8,11 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import useFirebase from "../../../hooks/useFirebase";
 
 const Product = () => {
+
+    const {db} = useFirebase();
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState("");
   const [editingId, setEditingId] = useState(null);
