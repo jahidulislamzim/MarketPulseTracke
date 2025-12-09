@@ -7,7 +7,7 @@
   margin-bottom: 15px;
 }
 
-/* Location Selector Styling */
+
 .location-selector {
   display: flex;
   flex-wrap: wrap;
@@ -40,7 +40,7 @@
   box-shadow: 0 0 5px rgba(0, 116, 224, 0.3);
 }
 
-/* Table Styling */
+
 .buyer-product-table {
   width: 100%;
   border-collapse: collapse;

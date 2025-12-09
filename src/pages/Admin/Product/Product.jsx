@@ -27,7 +27,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const productsCollection = collection(db, "products");
 
-  // Fetch products safely
+
   const fetchProductsList = async () => {
     setLoading(true);
     try {
@@ -45,7 +45,7 @@ const Product = () => {
     }
   };
 
-  // Fetch products on mount
+
   useEffect(() => {
     fetchProductsList();
   }, []);

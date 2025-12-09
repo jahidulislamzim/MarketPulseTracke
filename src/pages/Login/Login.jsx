@@ -15,7 +15,6 @@ const Login = () => {
   const handleLogin = () => {
     signInUser(email, password)
       .then(result => {
-        console.log(result);
         setEmail("");
         setPassword("");
       
