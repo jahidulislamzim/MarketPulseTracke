@@ -20,13 +20,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      // Public Home Page
       {
         index: true,
         element: <Home />,
       },
 
-      // --------------------- BUYER ROUTES ---------------------
+
       {
         path: "/buyer/my-list",
         element: (
@@ -52,7 +51,7 @@ const router = createBrowserRouter([
         ),
       },
 
-      // --------------------- ADMIN ROUTES ---------------------
+  
       {
         path: "/admin/report",
         element: (
@@ -86,7 +85,7 @@ const router = createBrowserRouter([
         ),
       },
 
-      // --------------------- SELLER ROUTES ---------------------
+
       {
         path: "/seller/profile",
         element: (
@@ -104,7 +103,7 @@ const router = createBrowserRouter([
         ),
       },
 
-      // --------------------- PUBLIC AUTH PAGES ---------------------
+
       {
         path: "/login",
         element: (
