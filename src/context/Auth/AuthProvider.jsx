@@ -6,7 +6,6 @@ import {
     signOut,
     updateProfile
 } from 'firebase/auth';
-
 import { auth, db } from '../../auth/firebase.init';
 import { doc, getDoc } from "firebase/firestore";
 import { AuthContext } from './AuthContext';
@@ -16,11 +15,39 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [authError, setAuthError] = useState(null);
 
+    const fetchUserData = async (currentUser) => {
+        try {
+            const ref = doc(db, "users", currentUser.uid);
+            const snap = await getDoc(ref);
+
+            if (snap.exists()) {
+                return {
+                    uid: currentUser.uid,
+                    email: currentUser.email,
+                    ...snap.data(),
+                };
+            } else {
+                return {
+                    uid: currentUser.uid,
+                    email: currentUser.email,
+                };
+            }
+        } catch (error) {
+            console.error("Failed to fetch user data:", error);
+            return {
+                uid: currentUser.uid,
+                email: currentUser.email,
+            };
+        }
+    };
+
     const registerUser = async (email, password) => {
         setLoading(true);
         setAuthError(null);
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
+            const userData = await fetchUserData(result.user);
+            setUser(userData);
             return result.user;
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
@@ -43,6 +70,8 @@ const AuthProvider = ({ children }) => {
         setAuthError(null);
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
+            const userData = await fetchUserData(result.user);
+            setUser(userData);
             return result.user;
         } catch (error) {
             if (error.code === 'auth/user-not-found') {
@@ -76,7 +105,7 @@ const AuthProvider = ({ children }) => {
         try {
             if (auth.currentUser) {
                 await updateProfile(auth.currentUser, profile);
-                setUser({ ...auth.currentUser });
+                setUser(prev => ({ ...prev, ...profile }));
             }
         } catch {
             setAuthError('Profile update failed.');
@@ -85,22 +114,11 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
-                const ref = doc(db, "users", currentUser.uid);
-                const snap = await getDoc(ref);
+            setLoading(true);
 
-                if (snap.exists()) {
-                    setUser({
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                        ...snap.data(),
-                    });
-                } else {
-                    setUser({
-                        uid: currentUser.uid,
-                        email: currentUser.email,
-                    });
-                }
+            if (currentUser) {
+                const userData = await fetchUserData(currentUser);
+                setUser(userData);
             } else {
                 setUser(null);
             }

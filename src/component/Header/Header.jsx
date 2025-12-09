@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
+import useAuth from "../../hooks/useAuth";
 
 const Header = () => {
-  const [role, setRole] = useState("admin"); // role is now dynamic
-  const auth = false;
+  const { user, logOut } = useAuth();
+  console.log(user);
 
   const handleLogout = () => {
-    console.log("Logged out");
+    logOut();
   };
 
   const renderLinks = () => {
-    switch (role) {
+    if (!user)
+      return (
+        <Link to="/login" className="auth-btn-link">
+          Login
+        </Link>
+      );
+
+    switch (user?.role) {
       case "buyer":
         return (
           <>
@@ -20,7 +28,6 @@ const Header = () => {
             <Link to="/buyer/my-list">My List</Link>
           </>
         );
-
       case "seller":
         return (
           <>
@@ -28,7 +35,6 @@ const Header = () => {
             <Link to="/seller/product">Product</Link>
           </>
         );
-
       case "admin":
         return (
           <>
@@ -38,9 +44,8 @@ const Header = () => {
             <Link to="/admin/report">Reports</Link>
           </>
         );
-
       default:
-        return <Link to="/login">Login</Link>;
+        return null;
     }
   };
 
@@ -49,26 +54,13 @@ const Header = () => {
       <h2>MPT</h2>
 
       <div className="right-nav">
-        {/* NEW: Role Dropdown */}
-        <div className="role-dropdown">
-          <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="buyer">Buyer</option>
-            <option value="seller">Seller</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
-
         <div className="nav-links">{renderLinks()}</div>
 
-        <div className="auth-btn">
-          {auth ? (
+        {user && (
+          <div className="auth-btn">
             <button onClick={handleLogout}>Logout</button>
-          ) : (
-            <Link to="/login">
-              <button>Login</button>
-            </Link>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
