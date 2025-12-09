@@ -1,33 +1,51 @@
 import React, { useState, useEffect } from "react";
-import './User.css';
+import "./User.css";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
-import { db } from "../../../auth/firebase.init"; 
+import { db } from "../../../auth/firebase.init";
 
 const User = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
-  const [status, setStatus] = useState(true); 
+  const [status, setStatus] = useState(true);
   const [sellers, setSellers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const usersCollection = collection(db, "users");
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAllData = async () => {
       try {
-        const snapshot = await getDocs(usersCollection);
-        const sellerList = snapshot.docs
-          .map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(user => user.role === "seller"); // only sellers
-        setSellers(sellerList);
-        setLoading(false);
+        // Fetch users
+        const usersSnapshot = await getDocs(collection(db, "users"));
+        const users = usersSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Fetch sellers
+        const sellerSnapshot = await getDocs(collection(db, "sellers"));
+        const sellerData = sellerSnapshot.docs.map(doc => ({
+          sid: doc.id,
+          ...doc.data(),
+        }));
+
+        // Merge based on uid
+        const mergedList = sellerData
+          .map(seller => {
+            const userMatch = users.find(u => u.uid === seller.uid);
+            return userMatch
+              ? { ...userMatch, ...seller } // merge all fields
+              : null;
+          })
+          .filter(merged => merged !== null);
+
+        setSellers(mergedList);
       } catch (err) {
-        console.error("Failed to fetch users:", err);
+        console.error("Error fetching data:", err);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
+    fetchAllData();
   }, []);
 
   const handleView = (id) => {
@@ -35,7 +53,7 @@ const User = () => {
     if (!seller) return;
 
     setSelectedSeller(seller);
-    setStatus(seller.status ?? true); 
+    setStatus(seller.status ?? true);
     setShowPopup(true);
   };
 
@@ -48,19 +66,17 @@ const User = () => {
     if (!selectedSeller) return;
 
     try {
-      const sellerRef = doc(db, "users", selectedSeller.id);
-      await updateDoc(sellerRef, { status: status });
+      const userRef = doc(db, "users", selectedSeller.id);
+      await updateDoc(userRef, { status });
 
       setSellers(prev =>
-        prev.map(s =>
-          s.id === selectedSeller.id ? { ...s, status: status } : s
-        )
+        prev.map(s => (s.id === selectedSeller.id ? { ...s, status } : s))
       );
 
       handleClose();
     } catch (err) {
-      console.error("Failed to update status:", err);
-      alert("Failed to update seller status.");
+      console.error("Failed to update:", err);
+      alert("Error updating status.");
     }
   };
 
@@ -110,7 +126,7 @@ const User = () => {
 
             <p><strong>Name:</strong> {selectedSeller.name}</p>
             <p><strong>Shop:</strong> {selectedSeller.shopName}</p>
-            <p><strong>Phone:</strong> {selectedSeller.phone}</p>
+            <p><strong>Address:</strong> {selectedSeller.shopAddress}</p>
 
             <label>Status</label>
             <select
@@ -123,16 +139,10 @@ const User = () => {
             </select>
 
             <div className="userDetails-popup-buttons">
-              <button
-                className="userDetails-popup-add-btn"
-                onClick={handleUpdateStatus}
-              >
+              <button className="userDetails-popup-add-btn" onClick={handleUpdateStatus}>
                 Update
               </button>
-              <button
-                className="userDetails-cancel-btn"
-                onClick={handleClose}
-              >
+              <button className="userDetails-cancel-btn" onClick={handleClose}>
                 Close
               </button>
             </div>
