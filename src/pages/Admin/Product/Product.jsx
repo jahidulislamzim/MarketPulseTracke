@@ -5,6 +5,7 @@ import {
   getDocs,
   addDoc,
   updateDoc,
+  setDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore";
@@ -14,6 +15,7 @@ const Product = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     productName: "",
@@ -23,10 +25,11 @@ const Product = () => {
   });
 
   const [products, setProducts] = useState([]);
-
   const productsCollection = collection(db, "products");
 
+  // Fetch products safely
   const fetchProductsList = async () => {
+    setLoading(true);
     try {
       const snapshot = await getDocs(productsCollection);
       const productsList = snapshot.docs.map((doc) => ({
@@ -37,9 +40,12 @@ const Product = () => {
     } catch (err) {
       console.error(err);
       setError("Failed to fetch products.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Fetch products on mount
   useEffect(() => {
     fetchProductsList();
   }, []);
@@ -87,16 +93,19 @@ const Product = () => {
       return;
     }
 
-    const newProduct = {
-      productName,
-      highestRange: high,
-      lowestRange: low,
-      unit,
-      lastUpdate: new Date().toISOString(),
-    };
-
     try {
-      await addDoc(productsCollection, newProduct);
+      const newDocRef = doc(productsCollection); 
+
+      const newProduct = {
+        uid: newDocRef.id, 
+        productName,
+        highestRange: high,
+        lowestRange: low,
+        unit,
+        lastUpdate: new Date().toISOString(),
+      };
+
+      await setDoc(newDocRef, newProduct);
       await fetchProductsList();
       handleCancel();
     } catch (err) {
@@ -186,43 +195,53 @@ const Product = () => {
         Add Product
       </button>
 
-      <table className="admin-product-table">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th>Lowest Price</th>
-            <th>Highest Price</th>
-            <th>Unit</th>
-            <th>Last Update</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.productName}</td>
-              <td>{product.lowestRange}</td>
-              <td>{product.highestRange}</td>
-              <td>{product.unit}</td>
-              <td>{formatDateBD(product.lastUpdate)}</td>
-              <td>
-                <button
-                  className="admin-product-view-btn"
-                  onClick={() => handleEdit(product.id)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="admin-product-delete-btn"
-                  onClick={() => handleDelete(product.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      {loading ? (
+        <p>Loading products...</p>
+      ) : (
+        <table className="admin-product-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Lowest Price</th>
+              <th>Highest Price</th>
+              <th>Unit</th>
+              <th>Last Update</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.length > 0 ? (
+              products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.productName}</td>
+                  <td>{product.lowestRange}</td>
+                  <td>{product.highestRange}</td>
+                  <td>{product.unit}</td>
+                  <td>{formatDateBD(product.lastUpdate)}</td>
+                  <td>
+                    <button
+                      className="admin-product-view-btn"
+                      onClick={() => handleEdit(product.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="admin-product-delete-btn"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No products found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
 
       {showPopup && (
         <div className="admin-product-popup">

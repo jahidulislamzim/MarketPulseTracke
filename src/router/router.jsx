@@ -4,6 +4,7 @@ import Home from "../pages/Home/Home";
 import MyList from "../pages/Buyer/MyList/MyList";
 import Profile from "../pages/Buyer/Profile/Profile";
 import Report from "../pages/Buyer/Report/Report";
+import Product from "../pages/Buyer/Product/Product";
 import Login from "../pages/Login/Login";
 import AdminReport from "../pages/Admin/Report/Report";
 import AdminProduct from "../pages/Admin/Product/Product";
@@ -27,25 +28,34 @@ const router = createBrowserRouter([
 
 
       {
-        path: "/buyer/my-list",
+        path: "/customer/my-list",
         element: (
-          <UniversalRoute authRequired={true} roles={["buyer"]}>
+          <UniversalRoute authRequired={true} roles={["customer"]}>
             <MyList />
           </UniversalRoute>
         ),
       },
+
       {
-        path: "/buyer/profile",
+        path: "/customer/product",
         element: (
-          <UniversalRoute authRequired={true} roles={["buyer"]}>
+          <UniversalRoute authRequired={true} roles={["customer"]}>
+            <Product/>
+          </UniversalRoute>
+        ),
+      },
+      {
+        path: "/customer/profile",
+        element: (
+          <UniversalRoute authRequired={true} roles={["customer"]}>
             <Profile />
           </UniversalRoute>
         ),
       },
       {
-        path: "/buyer/report",
+        path: "/customer/report",
         element: (
-          <UniversalRoute authRequired={true} roles={["buyer"]}>
+          <UniversalRoute authRequired={true} roles={["customer"]}>
             <Report />
           </UniversalRoute>
         ),

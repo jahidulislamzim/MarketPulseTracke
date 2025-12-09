@@ -20,12 +20,13 @@ const Header = () => {
       );
 
     switch (user?.role) {
-      case "buyer":
+      case "customer":
         return (
           <>
-            <Link to="/buyer/profile">Profile</Link>
-            <Link to="/buyer/report">Reports</Link>
-            <Link to="/buyer/my-list">My List</Link>
+            <Link to="/customer/profile">Profile</Link>
+            <Link to="/customer/product">Product</Link>
+            <Link to="/customer/report">Reports</Link>
+            <Link to="/customer/my-list">My List</Link>
           </>
         );
       case "seller":

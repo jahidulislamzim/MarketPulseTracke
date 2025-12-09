@@ -13,26 +13,25 @@ const User = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        // Fetch users
         const usersSnapshot = await getDocs(collection(db, "users"));
         const users = usersSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
         }));
 
-        // Fetch sellers
+
         const sellerSnapshot = await getDocs(collection(db, "sellers"));
         const sellerData = sellerSnapshot.docs.map(doc => ({
           sid: doc.id,
           ...doc.data(),
         }));
 
-        // Merge based on uid
+
         const mergedList = sellerData
           .map(seller => {
             const userMatch = users.find(u => u.uid === seller.uid);
             return userMatch
-              ? { ...userMatch, ...seller } // merge all fields
+              ? { ...userMatch, ...seller } 
               : null;
           })
           .filter(merged => merged !== null);
