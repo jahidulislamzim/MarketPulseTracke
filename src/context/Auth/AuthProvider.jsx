@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { 
-    createUserWithEmailAndPassword, 
-    onAuthStateChanged, 
-    signInWithEmailAndPassword, 
-    signOut, 
-    updateProfile 
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut,
+    updateProfile
 } from 'firebase/auth';
-import { auth } from '../../auth/firebase.init';
+
+import { auth, db } from '../../auth/firebase.init';
+import { doc, getDoc } from "firebase/firestore";
 import { AuthContext } from './AuthContext';
 
 const AuthProvider = ({ children }) => {
@@ -14,16 +16,13 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [authError, setAuthError] = useState(null);
 
-
     const registerUser = async (email, password) => {
         setLoading(true);
         setAuthError(null);
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
-            setUser(result.user);
             return result.user;
         } catch (error) {
-
             if (error.code === 'auth/email-already-in-use') {
                 setAuthError('This email is already registered.');
             } else if (error.code === 'auth/invalid-email') {
@@ -39,16 +38,13 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-
     const signInUser = async (email, password) => {
         setLoading(true);
         setAuthError(null);
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
-            setUser(result.user);
             return result.user;
         } catch (error) {
-
             if (error.code === 'auth/user-not-found') {
                 setAuthError('No account found with this email.');
             } else if (error.code === 'auth/wrong-password') {
@@ -69,9 +65,8 @@ const AuthProvider = ({ children }) => {
         try {
             await signOut(auth);
             setUser(null);
-        } catch (error) {
+        } catch {
             setAuthError('Logout failed. Please try again.');
-            throw error;
         } finally {
             setLoading(false);
         }
@@ -83,19 +78,37 @@ const AuthProvider = ({ children }) => {
                 await updateProfile(auth.currentUser, profile);
                 setUser({ ...auth.currentUser });
             }
-        } catch (error) {
+        } catch {
             setAuthError('Profile update failed.');
-            throw error;
         }
     };
 
-    
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                const ref = doc(db, "users", currentUser.uid);
+                const snap = await getDoc(ref);
+
+                if (snap.exists()) {
+                    setUser({
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                        ...snap.data(),
+                    });
+                } else {
+                    setUser({
+                        uid: currentUser.uid,
+                        email: currentUser.email,
+                    });
+                }
+            } else {
+                setUser(null);
+            }
+
             setLoading(false);
         });
-        return () => unSubscribe();
+
+        return () => unsubscribe();
     }, []);
 
     const authInfo = {

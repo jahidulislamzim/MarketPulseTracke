@@ -9,66 +9,117 @@ import AdminReport from "../pages/Admin/Report/Report";
 import AdminProduct from "../pages/Admin/Product/Product";
 import AdminProfile from "../pages/Admin/Profile/Profile";
 import User from "../pages/Admin/User/User";
-
-import SellerProfile from "../pages/Seller/Profile/Profile"
-import SellerProduct from "../pages/Seller/Product/Product"
+import SellerProfile from "../pages/Seller/Profile/Profile";
+import SellerProduct from "../pages/Seller/Product/Product";
 import Registration from "../pages/Registration/Registration";
 
-let router = createBrowserRouter([
+import UniversalRoute from "./ProtectedRoute";
+
+const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    element: <App />,
     children: [
+      // Public Home Page
       {
         index: true,
-        Component: Home,
+        element: <Home />,
       },
+
+      // --------------------- BUYER ROUTES ---------------------
       {
         path: "/buyer/my-list",
-        Component: MyList,
+        element: (
+          <UniversalRoute authRequired={true} roles={["buyer"]}>
+            <MyList />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/buyer/profile",
-        Component: Profile,
+        element: (
+          <UniversalRoute authRequired={true} roles={["buyer"]}>
+            <Profile />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/buyer/report",
-        Component: Report,
+        element: (
+          <UniversalRoute authRequired={true} roles={["buyer"]}>
+            <Report />
+          </UniversalRoute>
+        ),
       },
-      // Admin Route 
+
+      // --------------------- ADMIN ROUTES ---------------------
       {
         path: "/admin/report",
-        Component: AdminReport,
+        element: (
+          <UniversalRoute authRequired={true} roles={["admin"]}>
+            <AdminReport />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/admin/user",
-        Component: User,
+        element: (
+          <UniversalRoute authRequired={true} roles={["admin"]}>
+            <User />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/admin/product",
-        Component: AdminProduct,
+        element: (
+          <UniversalRoute authRequired={true} roles={["admin"]}>
+            <AdminProduct />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/admin/profile",
-        Component: AdminProfile,
+        element: (
+          <UniversalRoute authRequired={true} roles={["admin"]}>
+            <AdminProfile />
+          </UniversalRoute>
+        ),
       },
 
-      // Seller Route 
+      // --------------------- SELLER ROUTES ---------------------
       {
         path: "/seller/profile",
-        Component: SellerProfile,
+        element: (
+          <UniversalRoute authRequired={true} roles={["seller"]}>
+            <SellerProfile />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/seller/product",
-        Component: SellerProduct,
+        element: (
+          <UniversalRoute authRequired={true} roles={["seller"]}>
+            <SellerProduct />
+          </UniversalRoute>
+        ),
       },
+
+      // --------------------- PUBLIC AUTH PAGES ---------------------
       {
         path: "/login",
-        Component: Login,
+        element: (
+          <UniversalRoute authRequired={false}>
+            <Login />
+          </UniversalRoute>
+        ),
       },
       {
         path: "/registration",
-        Component: Registration,
+        element: (
+          <UniversalRoute authRequired={false}>
+            <Registration />
+          </UniversalRoute>
+        ),
       },
     ],
   },
