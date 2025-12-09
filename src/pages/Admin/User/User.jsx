@@ -1,22 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './User.css';
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { db } from "../../../auth/firebase.init"; 
 
-const Report = () => {
+const User = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedSeller, setSelectedSeller] = useState(null);
-  const [status, setStatus] = useState("verified");
+  const [status, setStatus] = useState(true); 
+  const [sellers, setSellers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [sellers, setSellers] = useState([
-    { id: 1, name: "Kamal", shopName: "ABC Store", phone: "01712345678", status: "verified" },
-    { id: 2, name: "Munna Bhai", shopName: "XYZ Mart", phone: "01887654321", status: "not-verified" },
-  ]);
+  const usersCollection = collection(db, "users");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const snapshot = await getDocs(usersCollection);
+        const sellerList = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(user => user.role === "seller"); // only sellers
+        setSellers(sellerList);
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to fetch users:", err);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleView = (id) => {
     const seller = sellers.find(s => s.id === id);
     if (!seller) return;
 
     setSelectedSeller(seller);
-    setStatus(seller.status);
+    setStatus(seller.status ?? true); 
     setShowPopup(true);
   };
 
@@ -25,22 +44,35 @@ const Report = () => {
     setSelectedSeller(null);
   };
 
-  const handleUpdateStatus = () => {
-    setSellers(
-      sellers.map(s =>
-        s.id === selectedSeller.id
-          ? { ...s, status: status }
-          : s
-      )
-    );
-    handleClose();
+  const handleUpdateStatus = async () => {
+    if (!selectedSeller) return;
+
+    try {
+      const sellerRef = doc(db, "users", selectedSeller.id);
+      await updateDoc(sellerRef, { status: status });
+
+      setSellers(prev =>
+        prev.map(s =>
+          s.id === selectedSeller.id ? { ...s, status: status } : s
+        )
+      );
+
+      handleClose();
+    } catch (err) {
+      console.error("Failed to update status:", err);
+      alert("Failed to update seller status.");
+    }
   };
 
-  return (
-    <div className="content">
-      <h3>Seller List</h3>
+  if (loading) {
+    return <div className="userDetails-content">Loading sellers...</div>;
+  }
 
-      <table className="report-table">
+  return (
+    <div className="userDetails-content">
+      <h3 className="userDetails-title">Seller List</h3>
+
+      <table className="userDetails-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -55,11 +87,14 @@ const Report = () => {
             <tr key={seller.id}>
               <td>{seller.name}</td>
               <td>{seller.shopName}</td>
-              <td className={`status ${seller.status}`}>
-                {seller.status === "verified" ? "Verified" : "Not Verified"}
+              <td className={`userDetails-status ${seller.status ? "verified" : "not-verified"}`}>
+                {seller.status ? "Verified" : "Not Verified"}
               </td>
               <td>
-                <button className="view-btn" onClick={() => handleView(seller.id)}>
+                <button
+                  className="userDetails-view-btn"
+                  onClick={() => handleView(seller.id)}
+                >
                   View
                 </button>
               </td>
@@ -69,30 +104,43 @@ const Report = () => {
       </table>
 
       {showPopup && selectedSeller && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h3>Seller Details</h3>
+        <div className="userDetails-popup">
+          <div className="userDetails-popup-content">
+            <h4>Seller Details</h4>
 
             <p><strong>Name:</strong> {selectedSeller.name}</p>
             <p><strong>Shop:</strong> {selectedSeller.shopName}</p>
             <p><strong>Phone:</strong> {selectedSeller.phone}</p>
 
             <label>Status</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="verified">Verified</option>
-              <option value="not-verified">Not Verified</option>
+            <select
+              value={status ? "true" : "false"}
+              onChange={(e) => setStatus(e.target.value === "true")}
+              className="userDetails-popup-input"
+            >
+              <option value="true">Verified</option>
+              <option value="false">Not Verified</option>
             </select>
 
-            <div className="popup-actions">
-              <button className="add-btn" onClick={handleUpdateStatus}>Update</button>
-              <button className="cancel-btn" onClick={handleClose}>Close</button>
+            <div className="userDetails-popup-buttons">
+              <button
+                className="userDetails-popup-add-btn"
+                onClick={handleUpdateStatus}
+              >
+                Update
+              </button>
+              <button
+                className="userDetails-cancel-btn"
+                onClick={handleClose}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };
 
-export default Report;
+export default User;
