@@ -1,10 +1,9 @@
 .seller-content {
   padding: 30px;
-  width: 70%;        
-  margin: 0 auto;     
+  width: 70%;
+  margin: 0 auto;
   box-sizing: border-box;
 }
-
 
 .seller-title {
   color: #0074e0;
@@ -13,29 +12,25 @@
   font-weight: 600;
 }
 
-
 .seller-table-header {
   margin-bottom: 15px;
 }
 
-
 .seller-add-btn {
   background: #005bb7;
   color: #fff;
-  padding: 8px 16px;   
+  padding: 8px 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   transition: 0.3s;
-  min-width: 100px; 
+  min-width: 100px;
   text-align: center;
 }
-
 .seller-add-btn:hover {
   background: #004494;
 }
-
 
 .seller-professional-table {
   width: 100%;
@@ -46,7 +41,6 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
 .seller-professional-table th,
 .seller-professional-table td {
   padding: 14px 16px;
@@ -54,38 +48,22 @@
   font-size: 14px;
   vertical-align: middle;
 }
-
 .seller-professional-table th {
   background: #0074e0;
   color: #fff;
   font-weight: 600;
 }
-
 .seller-professional-table tbody tr {
   transition: background 0.2s;
 }
-
 .seller-professional-table tbody tr:hover {
   background: #f1f7ff;
 }
-
 .seller-professional-table td:last-child {
   display: flex;
   gap: 10px;
   justify-content: flex-start;
 }
-
-
-.seller-status.success {
-  color: green;
-  font-weight: bold;
-}
-
-.seller-status.pending {
-  color: orange;
-  font-weight: bold;
-}
-
 
 .seller-view-btn,
 .seller-delete-btn {
@@ -95,30 +73,24 @@
   cursor: pointer;
   font-size: 14px;
   text-align: center;
-  min-width: 80px;   
-  flex: none;          
+  min-width: 80px;
+  flex: none;
   transition: 0.3s;
 }
-
-
 .seller-view-btn {
   background: #0074e0;
   color: #fff;
 }
-
 .seller-view-btn:hover {
   background: #005bb7;
 }
-
 .seller-delete-btn {
   background: #d9534f;
   color: #fff;
 }
-
 .seller-delete-btn:hover {
   background: #b52b28;
 }
-
 
 .seller-popup {
   position: fixed;
@@ -132,7 +104,6 @@
   align-items: center;
   z-index: 999;
 }
-
 
 .seller-popup-content {
   background: #fff;
@@ -150,7 +121,6 @@
   font-size: 1.4rem;
 }
 
-
 .seller-popup-input {
   width: 100%;
   padding: 10px 14px;
@@ -160,21 +130,18 @@
   font-size: 14px;
   outline: none;
 }
-
 .seller-popup-input:focus {
   border-color: #0074e0;
   box-shadow: 0 0 5px rgba(0, 116, 224, 0.3);
 }
 
-
 .seller-popup-buttons {
-  display: flex;           
-  justify-content: center; 
-  gap: 10px;   
-  width: fit-content;      
-  margin: 0 auto;          
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  margin: 0 auto;
 }
-
 
 .seller-popup-add-btn,
 .seller-cancel-btn {
@@ -188,26 +155,29 @@
   transition: 0.3s;
 }
 
-
 .seller-popup-add-btn {
   background: #005bb7;
   color: #fff;
 }
-
 .seller-popup-add-btn:hover {
   background: #004494;
 }
-
 .seller-cancel-btn {
   margin-top:10px;
   background: #d9534f;
   color: #fff;
 }
-
 .seller-cancel-btn:hover {
   background: #b52b28;
 }
 
+.seller-popup-table-container {
+  max-height: 400px; /* scrollable area */
+  overflow-y: auto;
+  margin-bottom: 20px;
+  border: 1px solid #dce9f9;
+  border-radius: 6px;
+}
 
 @keyframes seller-fadeIn {
   from { opacity: 0; transform: translateY(-20px);}
