@@ -41,6 +41,22 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+
+    const refresh = async () => {
+    setLoading(true);
+
+    const currentUser = auth.currentUser;
+
+    if (currentUser) {
+        const userData = await fetchUserData(currentUser);
+        setUser(userData);
+    } else {
+        setUser(null);
+    }
+
+    setLoading(false);
+};
+
     const registerUser = async (email, password) => {
         setLoading(true);
         setAuthError(null);
@@ -48,6 +64,7 @@ const AuthProvider = ({ children }) => {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             const userData = await fetchUserData(result.user);
             setUser(userData);
+            refresh();
             return result.user;
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {

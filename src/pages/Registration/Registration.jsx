@@ -5,7 +5,7 @@ import "./Registration.css";
 import { doc, setDoc } from "firebase/firestore";
 import useAuth from "../../hooks/useAuth";
 import { db } from "../../auth/firebase.init";
-import locationData from "../../data/data.json"; // <-- LOCATION JSON IMPORT
+import locationData from "../../data/data.json"; 
 
 const Registration = () => {
   const [role, setRole] = useState("");
@@ -18,13 +18,13 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // LOCATION STATES
+
   const [division, setDivision] = useState("");
   const [district, setDistrict] = useState("");
   const [thana, setThana] = useState("");
   const [area, setArea] = useState("");
 
-  // ROLE BASED DATA
+
   const [sellerData, setSellerData] = useState({
     tin: "",
     shopName: "",
@@ -109,7 +109,7 @@ const Registration = () => {
       alert("Account created successfully!");
       navigate("/");
 
-      // RESET FIELDS
+    
       setName("");
       setEmail("");
       setPassword("");
@@ -165,7 +165,7 @@ const Registration = () => {
           </button>
         </div>
 
-        {/* -------------------- LOCATION DROPDOWNS -------------------- */}
+     
 
         <label>Select Division</label>
         <select
@@ -240,7 +240,7 @@ const Registration = () => {
             ))}
         </select>
 
-        {/* -------------------- END LOCATION DROPDOWNS -------------------- */}
+ 
 
         <label>Select Role</label>
         <select value={role} onChange={handleRoleChange}>

@@ -4,7 +4,7 @@ import "./Header.css";
 import useAuth from "../../hooks/useAuth";
 
 const Header = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut} = useAuth();
   console.log(user);
 
   const handleLogout = () => {
