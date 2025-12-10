@@ -1,5 +1,6 @@
-.content {
+.admin-content {
   padding: 30px;
+  font-family: Arial, sans-serif;
 }
 
 h3 {
@@ -7,8 +8,7 @@ h3 {
   margin-bottom: 15px;
 }
 
-
-.report-table {
+.admin-report-table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
@@ -17,29 +17,119 @@ h3 {
   box-shadow: 0 3px 10px rgba(0,0,0,.1);
 }
 
-.report-table th {
+.admin-report-table th {
   background: #0074e0;
   color: white;
   padding: 14px;
   text-align: left;
 }
 
-.report-table td {
+.admin-report-table td {
   padding: 14px;
   border-bottom: 1px solid #dce9f9;
 }
 
-.report-table td:last-child {
-  display: flex;
-  gap: 10px;
-}
-
-.status.success {
+.admin-status.resolved {
   color: green;
   font-weight: bold;
 }
 
-.status.pending {
+.admin-status.pending {
   color: orange;
   font-weight: bold;
+}
+
+.admin-view-btn {
+  padding: 8px 16px;
+  background-color: #0074e0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-view-btn:hover {
+  background-color: #005bb5;
+}
+
+/* Modal styles */
+.admin-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.admin-modal-content {
+  background: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.admin-modal-content h4 {
+  margin-bottom: 15px;
+  color: #0074e0;
+}
+
+.admin-modal-content p {
+  margin: 8px 0;
+}
+
+.admin-dropdown {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Buttons inside modal */
+.admin-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.admin-update-btn,
+.admin-cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+  color: white;
+}
+
+.admin-update-btn {
+  background-color: #0074e0; /* Blue */
+}
+
+.admin-update-btn:hover {
+  background-color: #005bb5;
+}
+
+.admin-cancel-btn {
+  background-color: #e74c3c; /* Red */
+}
+
+.admin-cancel-btn:hover {
+  background-color: #c0392b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
