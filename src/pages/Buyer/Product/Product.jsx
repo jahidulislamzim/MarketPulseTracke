@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../auth/firebase.init";
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  setDoc, 
+  updateDoc, 
+  query, 
+  where 
+} from "firebase/firestore";
+import { db, auth } from "../../../auth/firebase.init";
 import "./Product.css";
 import locationData from "../../../data/data.json";
 
@@ -12,55 +20,167 @@ const Product = () => {
   const [thana, setThana] = useState("");
   const [area, setArea] = useState("");
 
+  // ---------------------- FETCH & MERGE DATA ----------------------
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sellerSnapshot = await getDocs(collection(db, "sellerProducts"));
-        const sellerProducts = sellerSnapshot.docs.map((doc) => doc.data());
+        const [
+          sellerProductsSnapshot,
+          productsSnapshot,
+          usersSnapshot,
+          sellersSnapshot,
+        ] = await Promise.all([
+          getDocs(collection(db, "sellerProducts")),
+          getDocs(collection(db, "products")),
+          getDocs(collection(db, "users")),
+          getDocs(collection(db, "sellers")),
+        ]);
 
-        const productsSnapshot = await getDocs(collection(db, "products"));
-        const products = productsSnapshot.docs.map((doc) => doc.data());
+        const sellerProducts = sellerProductsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-        const merged = sellerProducts.map((seller) => {
-          const match = products.find((p) => p.uid === seller.productId);
+        const products = productsSnapshot.docs.map((doc) => ({
+          pid: doc.id,
+          ...doc.data(),
+        }));
+
+        const users = usersSnapshot.docs.map((doc) => ({
+          uid: doc.id,
+          ...doc.data(),
+        }));
+
+        const sellers = sellersSnapshot.docs.map((doc) => ({
+          sid: doc.id,
+          ...doc.data(),
+        }));
+
+        const merged = sellerProducts.map((sp) => {
+          const product = products.find((p) => p.pid === sp.productId);
+          const user = users.find((u) => u.uid === sp.sellerId);
+          const seller = sellers.find((s) => s.sid === sp.sellerId);
 
           return {
-            ...seller,
-            lowestRange: match?.lowestRange ?? null,
-            highestRange: match?.highestRange ?? null,
-            priceRange: match
-              ? `${match.lowestRange} - ${match.highestRange}`
-              : "-",
+            sellerProductId: sp.id,
+            productId: sp.productId,
+            sellerId: sp.sellerId,
+            sellingPrice: sp.sellingPrice,
+            unit_sp: sp.unit,
+            lastUpdate_sp: sp.lastUpdate,
+
+            productName: product?.productName ?? "-",
+            lowestRange: product?.lowestRange ?? null,
+            highestRange: product?.highestRange ?? null,
+            unit: product?.unit ?? "-",
+
+            shopName: seller?.shopName ?? "-",
+            shopAddress: seller?.shopAddress ?? "-",
+
+            sellerName: user?.name ?? "-",
+            email: user?.email ?? "-",
+
+            location: {
+              division: user?.location?.division ?? "",
+              district: user?.location?.district ?? "",
+              thana: user?.location?.thana ?? "",
+              area: user?.location?.area ?? "",
+            },
           };
         });
 
         setMergedData(merged);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error merging data:", error);
       }
     };
 
     fetchData();
   }, []);
 
+  // ---------------------- ADD TO CART ----------------------
+  const handleAddToCart = async (item) => {
+    const user = auth.currentUser;
 
+    if (!user) {
+      alert("Please log in first!");
+      return;
+    }
+
+    const customerId = user.uid;
+
+    try {
+      const cartRef = collection(db, "userCart");
+      const q = query(cartRef, where("customerId", "==", customerId));
+      const cartSnap = await getDocs(q);
+
+      if (cartSnap.empty) {
+        // Create new cart
+        const newCartRef = doc(collection(db, "userCart"));
+        await setDoc(newCartRef, {
+          uid: newCartRef.id,
+          customerId,
+          cart: [
+            {
+              productId: item.productId,
+              sellerProductId: item.sellerProductId,
+              sellerId: item.sellerId,
+            },
+          ],
+        });
+
+        alert("Added to cart!");
+        return;
+      }
+
+      // Update existing cart
+      const cartDoc = cartSnap.docs[0];
+      const cartData = cartDoc.data();
+
+      const duplicate = cartData.cart.some(
+        (c) => c.sellerProductId === item.sellerProductId
+      );
+
+      if (duplicate) {
+        alert("Item already in cart!");
+        return;
+      }
+
+      const updatedCart = [
+        ...cartData.cart,
+        {
+          productId: item.productId,
+          sellerProductId: item.sellerProductId,
+          sellerId: item.sellerId,
+        },
+      ];
+
+      await updateDoc(doc(db, "userCart", cartDoc.id), {
+        cart: updatedCart,
+      });
+
+      alert("Added to cart!");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
+  // ---------------------- FILTER ----------------------
   const filteredData = mergedData.filter((item) => {
     return (
-      (!division || item.division === division) &&
-      (!district || item.district === district) &&
-      (!thana || item.thana === thana) &&
-      (!area || item.area === area)
+      (!division || item.location.division === division) &&
+      (!district || item.location.district === district) &&
+      (!thana || item.location.thana === thana) &&
+      (!area || item.location.area === area)
     );
   });
 
   return (
     <div className="buyer-product-content">
-
-
       <h3>Product List</h3>
 
       <div className="location-selector">
-
+        {/* Division */}
         <div>
           <label>Select Division</label>
           <select
@@ -81,6 +201,7 @@ const Product = () => {
           </select>
         </div>
 
+        {/* District */}
         <div>
           <label>Select District</label>
           <select
@@ -102,6 +223,7 @@ const Product = () => {
           </select>
         </div>
 
+        {/* Thana */}
         <div>
           <label>Select Thana</label>
           <select
@@ -123,6 +245,7 @@ const Product = () => {
           </select>
         </div>
 
+        {/* Area */}
         <div>
           <label>Select Area</label>
           <select
@@ -141,9 +264,9 @@ const Product = () => {
               ))}
           </select>
         </div>
-
       </div>
 
+      {/* ---------------------- TABLE ---------------------- */}
       <table className="buyer-product-table">
         <thead>
           <tr>
@@ -164,13 +287,23 @@ const Product = () => {
               <tr key={index}>
                 <td className="buyer-text">{item.productName}</td>
                 <td className="buyer-text">{item.shopName}</td>
-                <td className="buyer-text">{item.area}</td>
+                <td className="buyer-text">{item.location.area}</td>
                 <td className="buyer-text">{item.shopAddress}</td>
-                <td className="buyer-text">{item.priceRange}</td>
+                <td className="buyer-text">
+                  {item.lowestRange && item.highestRange
+                    ? `${item.lowestRange} - ${item.highestRange}`
+                    : "-"}
+                </td>
                 <td className="buyer-text">{item.sellingPrice}</td>
                 <td className="buyer-text">{item.unit}</td>
+
                 <td>
-                  <button className="add-cart-btn">Add to Cart</button>
+                  <button
+                    className="add-cart-btn"
+                    onClick={() => handleAddToCart(item)}
+                  >
+                    Add to Cart
+                  </button>
                 </td>
               </tr>
             ))
@@ -182,9 +315,7 @@ const Product = () => {
             </tr>
           )}
         </tbody>
-
       </table>
-
     </div>
   );
 };
