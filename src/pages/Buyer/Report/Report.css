@@ -1,13 +1,15 @@
-.content {
+/* General Layout */
+.user-report-content {
   padding: 30px;
 }
 
-h3 {
+.user-report-content h3 {
   color: #0074e0;
   margin-bottom: 15px;
 }
 
-.report-table {
+/* Table */
+.user-report-table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
@@ -16,62 +18,188 @@ h3 {
   box-shadow: 0 3px 10px rgba(0,0,0,.1);
 }
 
-.report-table th {
+.user-report-table th {
   background: #0074e0;
   color: white;
   padding: 14px;
   text-align: left;
 }
 
-.report-table td {
+.user-report-table td {
   padding: 14px;
   border-bottom: 1px solid #dce9f9;
 }
 
-.report-table td:last-child {
+.user-report-table td:last-child {
   display: flex;
   gap: 10px;
 }
 
-.status.success {
+.user-report-status.user-report-success {
   color: green;
   font-weight: bold;
 }
 
-.status.pending {
+.user-report-status.user-report-pending {
   color: orange;
   font-weight: bold;
 }
 
-
-.view-btn,
-.delete-btn {
+/* Buttons */
+.user-report-view-btn,
+.user-report-delete-btn {
   padding: 6px 12px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 13px;
-  flex: 1; 
+  flex: 1;
   text-align: center;
 }
 
-.view-btn {
+.user-report-view-btn {
   background: #0074e0;
   color: white;
   transition: 0.3s;
 }
 
-.view-btn:hover {
+.user-report-view-btn:hover {
   background: #005bb7;
 }
 
-.delete-btn {
+.user-report-delete-btn {
   background: #d9534f;
   color: white;
   transition: 0.3s;
 }
 
-.delete-btn:hover {
+.user-report-delete-btn:hover {
   background: #b52b28;
 }
 
+.user-report-add-btn {
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.user-report-add-btn.blue-btn {
+  background-color: #0074e0;
+  color: white;
+  transition: 0.3s;
+}
+
+.user-report-add-btn.blue-btn:hover {
+  background-color: #005bb7;
+}
+
+/* Modal */
+.user-report-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.user-report-modal-content {
+  background: white;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-report-modal-content h4 {
+  margin: 0 0 10px 0;
+  color: #0074e0;
+}
+
+/* Input/Select/Textarea Styling */
+.user-report-modal-content input,
+.user-report-modal-content select,
+.user-report-modal-content textarea {
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+
+.user-report-modal-content input:focus,
+.user-report-modal-content select:focus,
+.user-report-modal-content textarea:focus {
+  border-color: #0074e0;
+  box-shadow: 0 0 5px rgba(0, 116, 224, 0.3);
+}
+
+.user-report-modal-content select:hover {
+  border-color: #0074e0;
+}
+
+.user-report-modal-content textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Label Styling */
+.user-report-modal-content label {
+  font-weight: 500;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  display: block;
+  color: #333;
+}
+
+/* Modal Buttons */
+.user-report-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.user-report-report-btn {
+  background: #0074e0;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.user-report-report-btn:hover:not(:disabled) {
+  background: #005bb7;
+}
+
+.user-report-report-btn:disabled {
+  background: #a0c4ff;
+  cursor: not-allowed;
+}
+
+.user-report-cancel-btn {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.user-report-cancel-btn:hover {
+  background: #b52b28;
+}
